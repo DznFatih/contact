@@ -29,3 +29,4 @@ from contact.contacts""")
 # display the PostgreSQL database server version
 data = cur.fetchall()
 print(data)
+print("Fatih")
