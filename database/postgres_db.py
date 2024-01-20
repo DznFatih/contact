@@ -48,10 +48,7 @@ class PostgresDatabase(Database):
     def roll_back(self) -> None:
         self.__db_connection.rollback()
 
-    def close_cursor(self) -> None:
-
-
-p = PostgresDatabase()
-data = p.get_data(query="""Select *
-from contact.contacts where id in (%s) """, param=(1,))
-print(data)
+# p = PostgresDatabase()
+# data = p.get_data(query="""Select *
+# from contact.contacts where id in (%s) """, param=(1,))
+# print(data)
