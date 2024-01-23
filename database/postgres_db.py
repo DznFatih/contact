@@ -2,7 +2,7 @@ import psycopg2
 
 from database.config import Config
 from database.database_interface import Database
-from exceptions.custom_exceptions import DBConnectionNotSet
+from exception.custom_exceptions import DBConnectionNotSet
 
 
 class PostgresDatabase(Database):
@@ -30,8 +30,12 @@ class PostgresDatabase(Database):
         cur.close()
         return data
 
-    def insert_data(self) -> None:
-        pass
+    def insert_data(self, query: str, param_data: list[tuple]) -> None:
+        if self.__db_connection is None:
+            raise DBConnectionNotSet
+        cur = self.__db_connection.cursor()
+        cur.executemany(query=query, vars_list=param_data)
+        cur.close()
 
     @staticmethod
     def __make_dict(cursor) -> list[dict]:
@@ -44,6 +48,10 @@ class PostgresDatabase(Database):
     def close_db_connection(self) -> None:
         if self.__db_connection is not None:
             self.__db_connection.close()
+
+    def commit_data(self) -> None:
+        if self.__db_connection is not None:
+            self.__db_connection.commit()
 
     def roll_back(self) -> None:
         self.__db_connection.rollback()

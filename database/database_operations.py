@@ -1,4 +1,3 @@
-import psycopg2
 
 from database.postgres_db import PostgresDatabase
 
@@ -17,16 +16,6 @@ class DatabaseOperations:
                 query += """ where """ + param
             self.__postgres.create_db_connection()
             return self.__postgres.get_data(query=query, param=param_data)
-        except psycopg2.DatabaseError as e:
-            print(str(e))
-        except psycopg2.Error as e:
-            print(str(e))
-        except ValueError as e:
-            print(str(e))
-        except TypeError as e:
-            print(str(e))
-        except Exception as e:
-            print(str(e))
         finally:
             self.__postgres.close_db_connection()
 
@@ -34,19 +23,17 @@ class DatabaseOperations:
         try:
             self.__postgres.create_db_connection()
             return self.__postgres.get_data(query=custom_query, param=param_data)
-        except psycopg2.DatabaseError as e:
-            print(str(e))
-        except psycopg2.Error as e:
-            print(str(e))
-        except ValueError as e:
-            print(str(e))
-        except TypeError as e:
-            print(str(e))
-        except Exception as e:
-            print(str(e))
         finally:
             self.__postgres.close_db_connection()
 
-
-p = DatabaseOperations()
-d = p.get_data("contact", "cc", column_name_list=["id"])
+    def insert_data_to_db(self, schema_name: str, table_name: str, table_column_name_list: list[str],
+                          param_data: list[tuple]) -> None:
+        try:
+            column_name_list: str = ", ".join(table_column_name_list)
+            parameters = ", ".join(["%s"] * len(table_column_name_list))
+            query: str = f"""insert into {schema_name}.{table_name}({column_name_list}) Values ({parameters})"""
+            self.__postgres.create_db_connection()
+            self.__postgres.insert_data(query=query, param_data=param_data)
+            self.__postgres.commit_data()
+        finally:
+            self.__postgres.close_db_connection()

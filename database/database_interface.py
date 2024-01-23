@@ -9,5 +9,5 @@ class Database(ABC):
 
 
     @abstractmethod
-    def insert_data(self) -> None:
+    def insert_data(self, query: str, param_data: tuple) -> None:
         pass

@@ -6,7 +6,7 @@ class Config:
     @staticmethod
     def __get_config() -> json:
 
-        file_path = 'config.json'
+        file_path = 'database/config.json'
 
         with open(file_path) as f:
             data = json.load(f)
