@@ -1,0 +1,9 @@
+
+{
+  "dwh": {
+    "host":"localhost",
+    "database":"dwh",
+    "user":"sql_dwh",
+    "password":"sql_dwh"
+  }
+}

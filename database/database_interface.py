@@ -4,10 +4,10 @@ from abc import ABC, abstractmethod
 class Database(ABC):
 
     @abstractmethod
-    def get_data(self) -> list[dict]:
+    def get_data(self, query: str, param: str) -> list[dict]:
         pass
 
 
     @abstractmethod
-    def insert_data(self) -> None:
+    def insert_data(self, query: str, param_data: tuple) -> None:
         pass
